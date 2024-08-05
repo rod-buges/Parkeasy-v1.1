@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #FFD000;
+      font-family: 'Bebas Neue', serif;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hero-body {
+      background-color: #FFD000;
+    }
+
+    #map {
+      height: 550px;
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    .marker {
+      background-color: #FFD000;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 1px solid #000;
+    }
+
+    .popup-button {
+      background-color: #FFD000;
+      color: #000;
+      border-radius: 20px;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .popup-button:hover {
+      background-color: #e6bf00;
+    }
+
+    .navbar {
+      background-color: #ffffff;
+      padding: 0.5rem 1rem;
+    }
+
+    .navbar-brand img {
+      max-height: 2.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .navbar-brand span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: black;
+    }
+
+    .navbar-item button {
+      background-color: #FFD000;
+      border: none;
+      border-radius: 50%;
+      padding: 11px 13px;
+      margin-left: 10px;
+      cursor: pointer;
+      color: #000;
+    }
+
+    .navbar-item button:hover {
+      background-color: #e6bf00;
+    }
+
+    .navbar-item button i {
+      font-size: 1.2rem;
+    }
+
+    .navbar-brand .fa-square-parking {
+      font-size: 2rem;
+      margin-right: 0.5rem;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      <i class="fa-solid fa-square-parking"></i>
+      <span>PARKEASY</span>
+    </a>
+  </div>
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <button><i class="fa-solid fa-book"></i></button>
+    </div>
+    <div class="navbar-item">
+      <button><i class="fa-solid fa-bookmark"></i></button>
+    </div>
+    <div class="navbar-item">
+      <button><i class="fa-solid fa-user"></i></button>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div id="map"></div>
+  </div>
+</section>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoicm9kLWJ1Z2VzIiwiYSI6ImNsemFlZXNieTBsNGoyanE2ZGlhY2NlZWEifQ.UwitunqnHbBm4EA6rKTiqQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-51.16944, -23.32583], // Coordenadas do centro do mapa
+    zoom: 9
+  });
+
+  // Função para adicionar marcadores
+  function addMarker(lng, lat, popupHTML) {
+    var el = document.createElement('div');
+    el.className = 'marker';
+    var marker = new mapboxgl.Marker(el)
+            .setLngLat([lng, lat])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(popupHTML))
+            .addTo(map);
+    el.addEventListener('click', function() {
+      marker.togglePopup();
+    });
+  }
+
+  // Coordenadas dos marcadores
+  var markers = [
+    [-51.16944, -23.32583, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.16611, -23.32528, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.16583, -23.32472, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.17111, -23.33056, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15694, -23.32806, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15611, -23.32778, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15833, -23.32750, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.17444, -23.32972, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15944, -23.32889, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15333, -23.33167, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15222, -23.33306, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.13833, -23.33500, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.14667, -23.31333, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15167, -23.32667, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.14667, -23.30333, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15194, -23.32528, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15306, -23.32778, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.12722, -23.33750, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>'],
+    [-51.15583, -23.32361, '<h3><strong>Estacionamento</strong></h3><p>Ver informações sobre localização, preços, vagas disponíveis, capacidade máxima, veículos suportados e mais infomações abaixo.</p><br><button class="popup-button">Ver Informações</button>']
+  ];
+
+  // Adicionando todos os marcadores ao mapa
+  markers.forEach(function(marker) {
+    addMarker(marker[0], marker[1], marker[2]);
+  });
+</script>
+</body>
+</html>
